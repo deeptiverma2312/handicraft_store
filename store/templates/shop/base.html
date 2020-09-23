@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- <meta http-equiv="refresh" content="1" /> -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'store/style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <script>
+      var user = "{{ request.user }}";
+      function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getToken("csrftoken");
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .display-container {
+        margin-left: 16.5%;
+        margin-top: 3%;
+      }
+      .fixed {
+        width: 100%;
+        background-color: #faf6f2;
+        position: fixed;
+        z-index: 1;
+        top: 0%;
+      }
+      .cat-container {
+        background-color: #faf6f2;
+        height: 85%;
+        position: fixed;
+        z-index: 1;
+        top: 11%;
+      }
+      .cat-item:hover {
+        background-color: #ded1bd;
+        color: #683b2b;
+      }
+      .chg-quantity {
+        cursor: pointer;
+      }
+
+      td {
+        justify-content: center;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      a:hover {
+        color: black;
+
+        text-decoration: none;
+      }
+      .bg-maroon {
+        color: white;
+        background-color: rgba(49, 0, 11, 0.822);
+      }
+      .maroon {
+        color: rgba(49, 0, 11, 0.822);
+      }
+      .product-title {
+        height: 50px;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <!--Navbar-->
+
+    <nav class="navbar border-bottom shadow-lg fixed row navbar-light">
+      <div class="nav-brand col-md-2 offset-md-1">
+        <a href="/"
+          ><b class="text-blue">ADEEP</b> <br /><b class="text-pink"
+            >Handicrafts</b
+          >
+        </a>
+      </div>
+
+      <form class="col-md-4" action="{% url 'search' %}" method="GET">
+        <div class="input-group">
+          <input
+            type="search"
+            name="Product_name"
+            class="form-control"
+            placeholder="Search handmad products"
+            aria-describedby="basic-addon2"
+          />
+          <div class="input-group-append">
+            <button
+              type="submit"
+              class="input-group-text btn-dark"
+              id="basic-addon2"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="col-md-4 navbar">
+        {% if user.is_authenticated %}
+
+        <a href="{% url 'logout' %}" class="marron navbar-item nav-link"
+          >Logout
+        </a>
+
+        <a href="#" class="maroon navbar-item nav-link">
+          {{ user.username }}
+        </a>
+
+        <a href="{% url 'cart' %}" class="navbar-item nav-link">
+          <i class="maroon fa fa-shopping-cart" aria-hidden="true">
+            {{ cartItems }}</i
+          >
+        </a>
+
+        <a href="{% url 'wishlist' %}" class="navbar-item nav-link">
+          <i class="maroon fa fa-bookmark" aria-hidden="true"></i>
+        </a>
+
+        {% else %}
+
+        <a
+          href="{% url 'login' %}"
+          class="navbar-item ml-5 nav-link btn btn-outline-secondary"
+          >SIGN IN</a
+        >
+        <a
+          href="{% url 'register' %}"
+          class="navbar-item nav-link mr-5 btn btn-outline-secondary"
+          >SIGN UP</a
+        >
+
+        {% endif %}
+      </div>
+    </nav>
+
+    <div class="main-container pt-5">
+      <div class="row m-0 p-0">
+        <div class="col-md-2 cat-container border-right shadow m-0 p-0">
+          <h4 class="bg-maroon text-white text-center m-0 p-2">CATEGORIES</h4>
+
+          {% for cat in Cat_list %}
+          <div class="cat-item">
+            <a href="{{ cat.get_absolute_url }}" class="navbar-item nav-link a">
+              {{ cat.cat_name }}
+            </a>
+          </div>
+
+          {% endfor %}
+        </div>
+        <div class="display-container col-md-10">
+          <div class="container m-0 p-0">
+            <div class="row m-0 p-0">
+              <div class="col-md-12 mb-2 m-0 p-0">
+                <!-- messages -->
+                {% if messages %} {% for message in messages %}
+                <div class=" alert-{{ message.tags }} text-center  rounded">
+                  {{ message }}
+                </div>
+                {% endfor %} {% endif %}
+                <!-- end message -->
+                <nav class="navbar navbar-dark bg-maroon mt-1 p-0">
+                  <div class="navbar">
+                    <a
+                      href="{% url 'index' %}"
+                      class="nav-item nav-link text-white"
+                      >HOME</a
+                    >
+                    <a href="" class="nav-item nav-link text-white"
+                      >TOP PRODUCTS</a
+                    >
+                    <a href="" class="nav-item nav-link text-white">DEALS</a>
+                    <a href="" class="nav-item nav-link text-white">ABOUT US</a>
+                    <a href="" class="nav-item nav-link text-white">CONTACT</a>
+                    <a href="" class="nav-item nav-link text-white"
+                      >PRIVACY POLICIES</a
+                    >
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+          {% block body %} {% endblock %}
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/wishlist.js' %}"></script>
+  </body>
+</html>

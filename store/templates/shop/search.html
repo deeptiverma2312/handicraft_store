@@ -1,0 +1,151 @@
+{% extends 'shop/base.html' %} {% block body %}
+<div class="container">
+  <div class="row">
+    {% if product_list %} {% for pro in product_list %}
+
+   
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <a href="{% url 'detail' pro.id %}" class="a">
+            <img src="{{ pro.item_image }}" class="card-img-top" />
+            <div class="card-title">
+              <h5 class="product-title">{{ pro.title }}</h5>
+            </div>
+          </a>
+          <div class="card-text">
+            <div class="row">
+              <div class="col-md-5 text-centre">Rs. {{ pro.price }}</div>
+              <button
+                data-product="{{ pro.id }}"
+                data-urli="{{ pro.item_image }}"
+                data-name="{{ pro.title }}"
+                data-price="{{ pro.price }}"
+                data-size="{{ pro.size }}"
+                data-color="{{ pro.color }}"
+                data-material="{{ pro.material }}"
+                data-action="add"
+                class="col-md-4 btn btn-outline-success text-centre popup"
+              >
+                ADD
+              </button>
+
+              <button
+                class="col-md-2 ml-2 btn  text-centre update-wishlist"
+                data-product="{{ pro.id }}"
+                data-action="add"
+              >
+               <i class="maroon fa fa-bookmark" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+
+
+
+     <!-- modal -->
+    <div
+      id="modal-pop"
+      style="
+        visibility: hidden;
+        position: fixed;
+        z-index: 1;
+        left: 40%;
+        top: 30%;
+        width: 30%;
+        height: 30%;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+      "
+    >
+      <div class="card p-2">
+        <div class="row">
+          <img
+            src=""
+            alt=""
+            class="col-md-5 offset-md-1 mt-1 mb-1 text-center pop-image img-thumbnail"
+          />
+          <div class="col-md-6">
+            <h1 class="pop-title text-center"></h1>
+            <h2 class="pop-price text-center"></h2>
+          </div>
+        </div>
+        <form action="" method="POST">
+          <!-- size -->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Choose size</label
+              >
+            </div>
+            <select
+              class="custom-select"
+              name="size"
+              id="size"
+              placeholder="Choose..."
+            ></select>
+          </div>
+
+          <!-- color -->
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Choose color</label
+              >
+            </div>
+            <select
+              class="custom-select"
+              name="color"
+              id="color"
+              placeholder="Choose..."
+            ></select>
+          </div>
+          <!-- material -->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Choose material</label
+              >
+            </div>
+            <select
+              class="custom-select"
+              name="material"
+              id="material"
+              placeholder="Choose..."
+            ></select>
+          </div>
+
+          <button
+            class="add_to_cart update-cart add-btn btn-block btn-success border border-0"
+            data-color=""
+            data-size=""
+            data-material=""
+            type="button"
+          >
+            ADD
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- end modal -->
+
+
+
+  </div>
+</div>
+
+  {% else %}
+    <div class="col-md-12 text-center">
+      <h1>No Results Found</h1>
+    </div>
+
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

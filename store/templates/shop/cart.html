@@ -1,0 +1,81 @@
+{% extends 'shop/base.html' %} {% block body %} {% if items %}
+<h1
+  class="text-center maroon"
+  style="font-family: 'Cinzel Decorative', cursive; font-size: 50px"
+>
+  CART
+</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-image table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">Color</th>
+            <th scope="col">Material</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <th scope="row " class="align-middle">
+              <a href="{% url 'detail' item.product.id %}" class="a">AD00{{ item.product.id }}</a>
+            </th>
+
+            <td class="w-25">
+              <a href="{% url 'detail' item.product.id %}" class="a">
+                <img
+                  src="{{ item.product.item_image }}"
+                  class="img-fluid img-thumbnail"
+              /></a>
+            </td>
+            <td class="align-middle "> <a href="{% url 'detail' item.product.id %}" class="a">{{ item.product.title }}</a></td>
+		      <td class="align-middle ">{{ item.size }}</td>
+		      <td class="align-middle ">{{ item.color }}</td>
+          <td class="align-middle ">{{ item.material }}</td>
+           <td class="align-middle ">{{ item.product.price }}</td> 
+          <td class="align-middle "><div class="quantity">
+       
+         <div class="row">
+           <div class="col-md-6 text-center  " style=" padding-top: 7%; ">X {{ item.quantity }} </div>
+           <div class="col-md-6">
+             <div class="row">
+               <div data-product="{{ item.product.id }}" data-action="inc"  data-size="{{ item.size }}" data-color="{{ item.color }}"  data-material="{{ item.material }}" class="chg-quantity update-cart col-md-12"><b>&#8679</b></div>
+               <div  data-product="{{ item.product.id }}" data-action="remove" data-size="{{ item.size }}" data-color="{{ item.color }}"  data-material="{{ item.material }}" class="chg-quantity update-cart col-md-12"><b>&#8681</b></div>
+             </div>
+           </div>
+         </div> 
+         
+  
+        </div></td>
+           <td class="align-middle ">{{ item.get_total }}</td> 
+          <td class="align-middle "><button  data-product="{{ item.product.id }}" data-size="{{ item.size }}" data-color="{{ item.color }}"  data-material="{{ item.material }}"  data-action="delete"  class="delete update-cart btn btn-outline-dark">DELETE</button></td>
+		    </tr>
+		       {% endfor %}
+		  </tbody> 
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="align-middle">
+  <h1 class="text-center">No Item in Cart</h1>
+  <div class="text-center">
+    <a href="{% url 'index' %}" class="btn btn-outline-dark text-center">
+      Shop Now</a
+    >
+  </div>
+</div>
+
+{% endif %} {% endblock %}

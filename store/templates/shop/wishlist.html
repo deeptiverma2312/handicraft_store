@@ -1,0 +1,132 @@
+{% extends 'shop/base.html' %} {% block body %} {% if items %}
+<h1
+  class="text-center maroon"
+  style="font-family: 'Cinzel Decorative', cursive; font-size: 50px"
+>
+  WISHLIST
+</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-image table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <th scope="row " class="align-middle">
+              <a href="{% url 'detail' item.product.id %}" class="a"
+                >AD00{{ item.product.id }}</a
+              >
+            </th>
+            <td class="w-25">
+              <a href="{% url 'detail' item.product.id %}" class="a">
+                <img
+                  src="{{ item.product.item_image }}"
+                  class="img-fluid img-thumbnail"
+              /></a>
+            </td>
+            <td class="align-middle">
+              <a href="{% url 'detail' item.product.id %}" class="a"
+                >{{ item.product.title }}</a
+              >
+            </td>
+            <td class="align-middle">{{ item.product.price }}</td>
+            <td class="align-middle">
+              <button
+                data-product="{{ item.product.id }}"
+                data-urli="{{ item.product.item_image }}"
+                data-name="{{ item.product.title }}"
+                data-price="{{ item.product.price }}"
+                data-size="{{ item.product.size }}"
+                data-color="{{ item.product.color }}"
+                data-material="{{ item.product.material }}"
+                data-action="add"
+                class="btn btn-outline-success text-centre popup"
+              >
+                ADD TO CART
+              </button>
+            </td>
+
+            <td class="align-middle">
+              <button
+                data-product="{{ item.product.id }}"
+                data-action="delete"
+                class="delete update-wishlist btn btn-outline-dark"
+              >
+                DELETE
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="align-middle">
+  <h1 class="text-center">No Item in Wishlist</h1>
+  <div class="text-center">
+    <a href="{% url 'index' %}" class="btn btn-outline-dark text-center">
+      Shop Now</a
+    >
+  </div>
+</div>
+
+{% endif %}
+<!-- modal -->
+<div
+  id="modal-pop"
+  style="
+    visibility: hidden;
+    position: fixed;
+    z-index: 1;
+    left: 40%;
+    top: 40%;
+    width: 30%;
+    height: 30%;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  "
+>
+  <div class="card">
+    <div class="row">
+      <img src="" alt="" class="col-md-6 text-center pop-image img-thumbnail" />
+      <h1 class="pop-title col-md-6 text-center"></h1>
+    </div>
+    <form action="" method="POST">
+      <label for="cars">Choose size:</label>
+
+      <select name="cars" id="size"></select>
+      <label for="cars">Choose color:</label>
+
+      <select name="cars" id="color"></select>
+      <label for="cars">Choose material:</label>
+
+      <select name="cars" id="material"></select>
+      <button
+        class="add_to_cart update-cart add-btn"
+        data-color=""
+        data-size=""
+        data-material=""
+        type="button"
+      >
+        ADD
+      </button>
+    </form>
+  </div>
+</div>
+<!-- end modal -->
+
+{% endblock %}

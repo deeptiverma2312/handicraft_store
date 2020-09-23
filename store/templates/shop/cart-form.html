@@ -1,0 +1,6 @@
+{% block cart %}
+<form action="" method="POST">
+  {% csrf_token %} {{ form }}
+  <button type="submit">ADD TO CART</button>
+</form>
+{% endblock %}
